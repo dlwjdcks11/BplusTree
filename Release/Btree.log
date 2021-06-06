@@ -1,7 +1,23 @@
 ﻿  BTree.cpp
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(101,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(116,34): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(120,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(145,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(159,34): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(163,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(175,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(224,24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(246,39): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(251,24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(270,24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(285,39): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(290,24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(303,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(542,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   코드를 생성하고 있습니다.
-  4 of 233 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
+  Compiler switch has changed, fall back to full compilation.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(356): warning C4715: 'BTree::search': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\user\source\repos\Btree\Btree\BTree.cpp(312): warning C4715: 'BTree::insert': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  All 327 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   코드를 생성했습니다.
   Btree.vcxproj -> C:\Users\user\source\repos\Btree\Release\Btree.exe
