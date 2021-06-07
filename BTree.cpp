@@ -10,6 +10,8 @@ using namespace std;
 
 const char* fileName;
 const char* outputFileName;
+int newRoot;
+int newDepth;
 
 class BTree {
 public:
@@ -21,14 +23,14 @@ public:
 };
 
 BTree::BTree(const char* _fileName, int _blockSize) {
-	const int RootBID = 1;
-	const int Depth = 0;
+	const int rootBID = 1;
+	const int depth = 0;
 
 	ofstream makeBin;
 	makeBin.open(_fileName, ios::out | ios::binary);
 	makeBin.write((char*)&_blockSize, sizeof(_blockSize));
-	makeBin.write((char*)&RootBID, sizeof(RootBID));
-	makeBin.write((char*)&Depth, sizeof(Depth));
+	makeBin.write((char*)&rootBID, sizeof(rootBID));
+	makeBin.write((char*)&depth, sizeof(depth));
 }
 
 int BTree::insert(int _bid, int _key, int _rid, int _depth) {
@@ -36,6 +38,7 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 	long iSize;
 	int* buffer;
 	size_t result;
+	int current;
 
 	pFile = fopen(fileName, "rb");
 	fseek(pFile, 0, SEEK_END);
@@ -50,16 +53,6 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 	int root = (int)buffer[1];
 	int depth = (int)buffer[2];
 	char init[] = { 0, 0, 0, 0 };
-
-	// Physical offset of a Block ID = 12 + ((BID-1) * BlockSize)
-	if (result == 12) {
-		pFile = fopen(fileName, "ab");
-
-		for (int i = 0; i < MAX * 2 + 1; i++)
-			fwrite(init, sizeof(char), sizeof(init), pFile);
-
-		fclose(pFile);
-	}
 
 	vector<pair<int, int>> v;
 
@@ -86,7 +79,7 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 		v.push_back(pair<int, int>(_key, _rid));
 		sort(v.begin(), v.end());
 
-		if (MAX + 1 == v.size()) {
+		if (blockSize / 8 + 1 == v.size()) {
 			pFile = fopen(fileName, "rb+");
 
 			if (depth == 0) {
@@ -131,9 +124,9 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 
 				depth++;
 				root = newBlock1;
-				fseek(pFile, 4, SEEK_SET);
-				fwrite((char*)&root, sizeof(int), 1, pFile);
-				fwrite((char*)&depth, sizeof(int), 1, pFile);
+
+				newRoot = root;
+				newDepth = depth;
 				fclose(pFile);
 			
 				return 0;
@@ -184,9 +177,8 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 		}
 	}
 	else {
-		int current;
 		if (_key < buffer[1])
-			current = buffer[1];
+			current = buffer[0];
 		else {
 			for (int i = 1; i < blockSize / 4; i += 2) {
 				if (buffer[i] <= _key && buffer[i] != 0)
@@ -208,7 +200,7 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 			v.push_back(pair<int, int>(underValue, totalBlock));
 			sort(v.begin(), v.end());
 
-			if (MAX + 1 == v.size()) {
+			if (blockSize / 8 + 1 == v.size()) {
 				if (_depth == 0) {
 					pFile = fopen(fileName, "rb+");
 
@@ -255,9 +247,8 @@ int BTree::insert(int _bid, int _key, int _rid, int _depth) {
 					root = newBlock1;
 					depth++;
 
-					fseek(pFile, 4, SEEK_SET);
-					fwrite((char*)&root, sizeof(int), 1, pFile);
-					fwrite((char*)&depth, sizeof(int), 1, pFile);
+					newRoot = root;
+					newDepth = depth;
 					fclose(pFile);
 				}
 				else {
@@ -498,12 +489,8 @@ int main(int argc, char* argv[]) {
 	BTree* btree = new BTree("", 0);
 	ifstream openText;
 	ofstream writeText;
+	FILE* pFile;
 	string buffer;
-
-	// btree.exe c btree.bin 36 기준으로,
-	// argv[1][0] == c
-	// argv[2] == btree.bin
-	// argv[3] == 36
 
 	switch (command) {
 	case 'c':
@@ -517,6 +504,11 @@ int main(int argc, char* argv[]) {
 			vector<string> input = split(buffer, ",");
 			
 			btree->insert(1, stoi(input[0]), stoi(input[1]), 0);
+			pFile = fopen(fileName, "rb+");
+			fseek(pFile, 4, SEEK_SET);
+			fwrite((char*)&newRoot, sizeof(int), 1, pFile);
+			fwrite((char*)&newDepth, sizeof(int), 1, pFile);
+			fclose(pFile);
 		}
 		break;
 	case 's':
